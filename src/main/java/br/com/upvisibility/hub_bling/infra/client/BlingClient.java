@@ -2,11 +2,13 @@ package br.com.upvisibility.hub_bling.infra.client;
 
 import br.com.upvisibility.hub_bling.business.request.auth.PayloadGerarTokenRequest;
 import br.com.upvisibility.hub_bling.business.request.auth.PayloadRefreshTokenBling;
+import br.com.upvisibility.hub_bling.business.request.contatos.ContatoRequest;
 import br.com.upvisibility.hub_bling.business.response.auth.TokenResponse;
+import br.com.upvisibility.hub_bling.business.response.contatos.ContatoCreatedIdResponse;
+import br.com.upvisibility.hub_bling.business.response.contatos.ContatoCreatedResponse;
+import br.com.upvisibility.hub_bling.business.response.contatos.ContatoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(
         name = "bling",
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 )
 public interface BlingClient {
 
+    // Autenticação Bling
     @PostMapping("/oauth/token")
     TokenResponse GerarTokenBling(
             @RequestHeader String credentials,
@@ -25,6 +28,29 @@ public interface BlingClient {
             @RequestHeader String credentials,
             @RequestBody PayloadRefreshTokenBling request
     );
+
+    // Endpoints de contato
+    @PostMapping("/contatos")
+    ContatoCreatedIdResponse criarContato(
+            @RequestHeader String token,
+            @RequestBody ContatoRequest request
+    );
+
+    @GetMapping("/contatos")
+    ContatoResponse buscarContatoPorDocumento(
+            @RequestHeader String token,
+            @RequestParam("numeroDocumento") String documento
+    );
+
+    @GetMapping("/contatos/{id}")
+    ContatoResponse buscarContatoPorId(
+            @RequestHeader String token,
+            @PathVariable("id") String id
+    );
+
+
+    // Endpoints de produtos
+
 
 
 }
