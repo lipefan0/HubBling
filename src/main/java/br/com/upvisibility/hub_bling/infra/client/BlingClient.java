@@ -13,6 +13,7 @@ import br.com.upvisibility.hub_bling.business.response.estoque.SaldoEstoqueDepos
 import br.com.upvisibility.hub_bling.business.response.estoque.SaldoEstoqueResponse;
 import br.com.upvisibility.hub_bling.business.response.fpagamentos.FPagamentoCreatedResponse;
 import br.com.upvisibility.hub_bling.business.response.fpagamentos.FPagamentoResponse;
+import br.com.upvisibility.hub_bling.business.response.lojas.LojaResponse;
 import br.com.upvisibility.hub_bling.business.response.produtos.ProdutoCreatedResponse;
 import br.com.upvisibility.hub_bling.business.response.produtos.ProdutoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -119,5 +120,11 @@ public interface BlingClient {
             @PathVariable("idDeposito") Long idDeposito
     );
 
+    // Endpoints de lojas
+
+    @GetMapping("/canais-venda")
+    LojaResponse listarLojas(
+            @RequestHeader String token
+    );
 
 }
