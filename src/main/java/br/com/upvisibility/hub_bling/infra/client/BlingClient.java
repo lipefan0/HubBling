@@ -3,17 +3,22 @@ package br.com.upvisibility.hub_bling.infra.client;
 import br.com.upvisibility.hub_bling.business.request.auth.PayloadGerarTokenRequest;
 import br.com.upvisibility.hub_bling.business.request.auth.PayloadRefreshTokenBling;
 import br.com.upvisibility.hub_bling.business.request.contatos.ContatoRequest;
+import br.com.upvisibility.hub_bling.business.request.estoque.EstoqueRequest;
 import br.com.upvisibility.hub_bling.business.request.fpagamentos.FPagamentoRequest;
 import br.com.upvisibility.hub_bling.business.request.produtos.ProdutoRequest;
 import br.com.upvisibility.hub_bling.business.response.auth.TokenResponse;
 import br.com.upvisibility.hub_bling.business.response.contatos.ContatoCreatedIdResponse;
 import br.com.upvisibility.hub_bling.business.response.contatos.ContatoResponse;
+import br.com.upvisibility.hub_bling.business.response.estoque.SaldoEstoqueDepositoResponse;
+import br.com.upvisibility.hub_bling.business.response.estoque.SaldoEstoqueResponse;
 import br.com.upvisibility.hub_bling.business.response.fpagamentos.FPagamentoCreatedResponse;
 import br.com.upvisibility.hub_bling.business.response.fpagamentos.FPagamentoResponse;
 import br.com.upvisibility.hub_bling.business.response.produtos.ProdutoCreatedResponse;
 import br.com.upvisibility.hub_bling.business.response.produtos.ProdutoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @FeignClient(
         name = "bling",
@@ -92,4 +97,27 @@ public interface BlingClient {
             @RequestHeader String token,
             @RequestParam("descricao") String descricao
     );
+
+    // Endpoints de estoque
+
+    @PostMapping("/estoques")
+    void criaRegistroEstoque(
+            @RequestHeader String token,
+            @RequestBody EstoqueRequest request
+    );
+
+    @GetMapping("/estoques/saldos")
+    SaldoEstoqueResponse buscarSaldoEstoque(
+            @RequestHeader String token,
+            @RequestParam("idsProdutos[]") List<Long> idProduto
+    );
+
+    @GetMapping("/estoques/saldos/{idDeposito}")
+    SaldoEstoqueDepositoResponse buscarSaldoEstoque(
+            @RequestHeader String token,
+            @RequestParam("idsProdutos[]") List<Long> idProduto,
+            @PathVariable("idDeposito") Long idDeposito
+    );
+
+
 }
