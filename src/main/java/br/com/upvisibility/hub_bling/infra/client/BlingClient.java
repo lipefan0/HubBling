@@ -3,11 +3,13 @@ package br.com.upvisibility.hub_bling.infra.client;
 import br.com.upvisibility.hub_bling.business.request.auth.PayloadGerarTokenRequest;
 import br.com.upvisibility.hub_bling.business.request.auth.PayloadRefreshTokenBling;
 import br.com.upvisibility.hub_bling.business.request.contatos.ContatoRequest;
+import br.com.upvisibility.hub_bling.business.request.fpagamentos.FPagamentoRequest;
 import br.com.upvisibility.hub_bling.business.request.produtos.ProdutoRequest;
 import br.com.upvisibility.hub_bling.business.response.auth.TokenResponse;
 import br.com.upvisibility.hub_bling.business.response.contatos.ContatoCreatedIdResponse;
-import br.com.upvisibility.hub_bling.business.response.contatos.ContatoCreatedResponse;
 import br.com.upvisibility.hub_bling.business.response.contatos.ContatoResponse;
+import br.com.upvisibility.hub_bling.business.response.fpagamentos.FPagamentoCreatedResponse;
+import br.com.upvisibility.hub_bling.business.response.fpagamentos.FPagamentoResponse;
 import br.com.upvisibility.hub_bling.business.response.produtos.ProdutoCreatedResponse;
 import br.com.upvisibility.hub_bling.business.response.produtos.ProdutoResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -72,4 +74,22 @@ public interface BlingClient {
             @PathVariable("id") String id
     );
 
+    // Endpoints de formas de pagamento
+
+    @PostMapping("/formas-pagamentos")
+    FPagamentoCreatedResponse criarFormaPagamento(
+            @RequestHeader String token,
+            @RequestBody FPagamentoRequest request
+    );
+
+    @GetMapping("/formas-pagamentos")
+    FPagamentoResponse listarFormasPagamentos(
+            @RequestHeader String token
+    );
+
+    @GetMapping("/formas-pagamentos")
+    FPagamentoResponse buscarFormaPagamentoPorNome(
+            @RequestHeader String token,
+            @RequestParam("descricao") String descricao
+    );
 }
