@@ -6,6 +6,7 @@ import br.com.upvisibility.hub_bling.business.request.contatos.ContatoRequest;
 import br.com.upvisibility.hub_bling.business.request.estoque.EstoqueRequest;
 import br.com.upvisibility.hub_bling.business.request.fpagamentos.FPagamentoRequest;
 import br.com.upvisibility.hub_bling.business.request.produtos.ProdutoRequest;
+import br.com.upvisibility.hub_bling.business.request.vendas.VendaRequest;
 import br.com.upvisibility.hub_bling.business.response.auth.TokenResponse;
 import br.com.upvisibility.hub_bling.business.response.contatos.ContatoCreatedIdResponse;
 import br.com.upvisibility.hub_bling.business.response.contatos.ContatoResponse;
@@ -16,6 +17,7 @@ import br.com.upvisibility.hub_bling.business.response.fpagamentos.FPagamentoRes
 import br.com.upvisibility.hub_bling.business.response.lojas.LojaResponse;
 import br.com.upvisibility.hub_bling.business.response.produtos.ProdutoCreatedResponse;
 import br.com.upvisibility.hub_bling.business.response.produtos.ProdutoResponse;
+import br.com.upvisibility.hub_bling.business.response.vendas.VendaListResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -125,6 +127,74 @@ public interface BlingClient {
     @GetMapping("/canais-venda")
     LojaResponse listarLojas(
             @RequestHeader String token
+    );
+
+    // Endpoints de pedidos de venda
+
+    @PostMapping("/pedidos/vendas")
+    void criarPedidoVenda(
+            @RequestHeader String token,
+            @RequestBody VendaRequest request
+    );
+
+    @PatchMapping("/pedidos/vendas/{idVenda}/situacoes/{idSituacao}")
+    void atualizarSituacaoPedidoVenda(
+            @RequestHeader String token,
+            @PathVariable("idVenda") Long idVenda,
+            @PathVariable("idSituacao") Long idSituacao
+    );
+
+    @PostMapping("/pedidos/vendas/{idVenda}/lancar-estoque")
+    void lancarEstoquePedidoVenda(
+            @RequestHeader String token,
+            @PathVariable("idVenda") Long idVenda
+    );
+
+    @PostMapping("/pedidos/vendas/{idVenda}/estornar-estoque")
+    void estornarEstoquePedidoVenda(
+            @RequestHeader String token,
+            @PathVariable("idVenda") Long idVenda
+    );
+
+    @PostMapping("/pedidos/vendas/{idVenda}/lancar-contas")
+    void lancarContasPedidoVenda(
+            @RequestHeader String token,
+            @PathVariable("idVenda") Long idVenda
+    );
+
+    @PostMapping("/pedidos/vendas/{idVenda}/estornar-contas")
+    void estornarContasPedidoVenda(
+            @RequestHeader String token,
+            @PathVariable("idVenda") Long idVenda
+    );
+
+    @PostMapping("/pedidos/vendas/{idVenda}/gerar-nfe")
+    void lancarNotaFiscal(
+            @RequestHeader String token,
+            @PathVariable("idVenda") Long idVenda
+    );
+
+    @PostMapping("/pedidos/vendas/{idVenda}/gerar-nfce")
+    void lancarNotaFiscalConsumidor(
+            @RequestHeader String token,
+            @PathVariable("idVenda") Long idVenda
+    );
+
+    @GetMapping("/pedidos/vendas")
+    VendaListResponse listarPedidosVenda(
+            @RequestHeader String token
+    );
+
+    @GetMapping("/pedidos/vendas")
+    VendaListResponse buscarPedidoVenda(
+            @RequestHeader String token,
+            @RequestParam("numero") String numero
+    );
+
+    @GetMapping("/pedidos/vendas")
+    VendaListResponse listarPedidosVendaBySituacao(
+            @RequestHeader String token,
+            @RequestParam("idsSituacoes[]") List<Long> idsSituacao
     );
 
 }
