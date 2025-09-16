@@ -10,6 +10,7 @@ import br.com.upvisibility.hub_bling.business.request.vendas.VendaRequest;
 import br.com.upvisibility.hub_bling.business.response.auth.TokenResponse;
 import br.com.upvisibility.hub_bling.business.response.contatos.ContatoCreatedIdResponse;
 import br.com.upvisibility.hub_bling.business.response.contatos.ContatoResponse;
+import br.com.upvisibility.hub_bling.business.response.empresa.EmpresaResponse;
 import br.com.upvisibility.hub_bling.business.response.estoque.SaldoEstoqueDepositoResponse;
 import br.com.upvisibility.hub_bling.business.response.estoque.SaldoEstoqueResponse;
 import br.com.upvisibility.hub_bling.business.response.fpagamentos.FPagamentoCreatedResponse;
@@ -20,6 +21,7 @@ import br.com.upvisibility.hub_bling.business.response.produtos.ProdutoResponse;
 import br.com.upvisibility.hub_bling.business.response.vendas.VendaListResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.service.annotation.GetExchange;
 
 import java.util.List;
 
@@ -40,6 +42,11 @@ public interface BlingClient {
     TokenResponse RefreshTokenBling(
             @RequestHeader String credentials,
             @RequestBody PayloadRefreshTokenBling request
+    );
+
+    @GetMapping("/empresas/me/dados-basicos")
+    EmpresaResponse getEmpresaDadosBasicos(
+            @RequestHeader("Authorization") String token
     );
 
     // Endpoints de contato
