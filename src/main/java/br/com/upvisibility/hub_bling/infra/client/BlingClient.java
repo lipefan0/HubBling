@@ -79,14 +79,14 @@ public interface BlingClient {
     @GetMapping("/produtos")
     ProdutoResponse buscarProdutoPorCodigo(
             @RequestHeader String token,
-            @RequestParam("codigos[]") String codigo
+            @RequestParam("codigos[]") List<String> codigo
     );
 
     @PutMapping("/produtos/{id}")
     ProdutoResponse editarProduto(
             @RequestHeader String token,
             @RequestBody ProdutoRequest request,
-            @PathVariable("id") String id
+            @PathVariable("id") Long id
     );
 
     // Endpoints de formas de pagamento
@@ -123,7 +123,7 @@ public interface BlingClient {
     );
 
     @GetMapping("/estoques/saldos/{idDeposito}")
-    SaldoEstoqueDepositoResponse buscarSaldoEstoque(
+    SaldoEstoqueDepositoResponse buscarSaldoEstoqueDeposito(
             @RequestHeader String token,
             @RequestParam("idsProdutos[]") List<Long> idProduto,
             @PathVariable("idDeposito") Long idDeposito

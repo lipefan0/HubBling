@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface BlingUserRepository extends JpaRepository<BlingUser, Long> {
     Optional<BlingUser> findBlingUserByUserId(Long userId);
+
+    Optional<BlingUser> findBlingUserByCompanyEmail(String email);
 }
